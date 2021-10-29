@@ -6,8 +6,14 @@ const {Server}=require('socket.io')
 let io=new Server(expressServer);
 
 io.on('connection',(socket)=>{
-    console.log('New User Connected')
+    socket.on('chat',function(msg){
+        io.emit('chat_transfer',msg)
+       
+    })
 })
+
+
+
 app.get('/',(req,res)=>{
     res.sendFile(__dirname+"/index.html")
 })

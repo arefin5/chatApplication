@@ -5,11 +5,47 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
 </head>
 <body>
+    <!--  -->
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="col-12  clo-md-6 col-lg-4">
+               <ul id="msgHistroy"></ul>
+            </div>
+        </div>
+    </div>
+    <!--  -->
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="col-12  clo-md-6 col-lg-4">
+               <div class="input-group">
+                <input id="msg" type="text" class="from-controls">
+                <button onclick="send()" class="btn btn-primary">Send</button>
+               </div>
+            </div>
+        </div>
+    </div>
     <script src="/socket.io/socket.io.js"></script>
     <script>
         let socket=io();
+        function send(){
+
+          let msg=document.getElementById('msg').value;
+          socket.emit('chat',msg)
+          document.getElementById('msg').value="" ;
+        }
+        socket.on('chat_transfer',function(msg){
+           let listItem=document.createElement('li')
+           listItem.textContent=msg ;
+           listItem.classList.add('list-group-item');
+           let msgHistroy=document.getElementById('msgHistroy')
+           msgHistroy.appendChild(listItem)
+           
+        })
     </script>
 </body>
 </html>
